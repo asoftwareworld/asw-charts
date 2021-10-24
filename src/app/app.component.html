@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-md-5">
+        <asw-pie-donut 
+            [config]="config"
+            [icon]="icon"
+            [label]="label"
+            [amount]="amount"
+            [currencyCode]="currencyCode"
+            [isLegendSort]="isLegendSort"
+            (donutSliceClick)="donutSliceClick($event)">
+        </asw-pie-donut>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <asw-semi-circle-donut
+            [config]="semiCircleDonut">
+
+        </asw-semi-circle-donut>
+    </div>
+</div>
