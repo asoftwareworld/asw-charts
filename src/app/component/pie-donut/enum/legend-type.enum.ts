@@ -16,3 +16,9 @@ export enum ChartTypeEnum {
     Pie = 'pie',
     Donut = 'donut'
 }
+
+export enum LegendLayoutEnum {
+    Vertical = 'vertical',
+    Horizontal = 'horizontal',
+    Proximate = 'proximate'
+}

@@ -7,7 +7,7 @@
  */
 
 import { CurrencyPipe, PercentPipe } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { AswChartConstants, AswCurrencyPipe, CurrencyCodeEnum, GridOptionsEnum } from '@asoftwareworld/charts/core';
 import { ObjectUtils } from '@asoftwareworld/charts/utils';
 import * as Highcharts from 'highcharts';
@@ -22,7 +22,7 @@ import {
     VerticalAlignValue
 } from 'highcharts';
 import { LegendPositionEnum } from '../enum/legend-position.enum';
-import { ChartTypeEnum, LegendTypeEnum } from '../enum/legend-type.enum';
+import { ChartTypeEnum, LegendLayoutEnum, LegendTypeEnum } from '../enum/legend-type.enum';
 import { PointClickEvent } from '../interface/point-click-event';
 
 @Component({
@@ -48,6 +48,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
     @Input() legendPosition: LegendPositionEnum = LegendPositionEnum.Right;
     @Input() legendType: LegendTypeEnum = LegendTypeEnum.Both;
     @Input() legendWidthPx = 250;
+    @Input() legendLayout: LegendLayoutEnum = LegendLayoutEnum.Vertical;
 
     @Output() donutSliceClick: EventEmitter<any> = new EventEmitter<any>();
 
@@ -79,13 +80,20 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
             this.setDonutChartTooltip();
             const series: SeriesPieOptions[] = this.cloneConfiguration.series as SeriesPieOptions[];
             this.setDonutChartSeriesOptions(series);
-            this.setDonutChartLegendOption(this.legendWidthPx);
+            if (this.legendLayout === LegendLayoutEnum.Vertical) {
+                this.setDonutChartLegendOption(this.legendWidthPx);
+            }
             if (this.chartType === ChartTypeEnum.Donut) {
                 this.setDonutChartInnerText();
             }
             this.donutChartSliceClick();
             Highcharts.chart(this.pieDonutChart.nativeElement, this.cloneConfiguration);
         }
+    }
+
+    @HostListener('window:resize')
+    onResize(): void {
+        this.initializeChart();
     }
 
     private removeChartCredit(): void {
@@ -111,14 +119,14 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
                 const percentage: number = this.point.percentage as number;
                 return `
                     <div class="row">
-                        <div class="col-md-12 text-end">
+                        <div class="col-md-12 text-end text-right">
                             <span style="color: ${this.point.color}">\u25A0</span>
                             <strong>${this.point.name}</strong>
                         </div>
-                        <div class="col-md-12 text-end">
+                        <div class="col-md-12 text-end text-right">
                             ${this$.percentPipe.transform(percentage / 100, '.2')}
                         </div>
-                        <div class="col-md-12 text-end">
+                        <div class="col-md-12 text-end text-right">
                             ${this$.currencyPipe.transform(this.point.options.value, this$.currencyCode)}
                         </div>
                     </div>
@@ -301,7 +309,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
                         <div class="col-md-8 col-sm-8 col-8">
                             ${name ? name : 'Category'}
                         </div>
-                        <div class="col-md-4 col-sm-4 col-4 text-end">
+                        <div class="col-md-4 col-sm-4 col-4 text-end text-right">
                             ${percentage ? this.percentPipe.transform(percentage / 100, '.0') : '%'}
                         </div>
                     </div>
@@ -316,7 +324,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
                         <div class="col-md-6 col-sm-6 col-6">
                             ${name ? name : 'Category'}
                         </div>
-                        <div class="col-md-6 col-sm-6 col-6 text-end">
+                        <div class="col-md-6 col-sm-6 col-6 text-end text-right">
                             ${value ? this.currencyPipe.transform(value, 'INR') : 'Total'}
                         </div>
                     </div>
@@ -332,10 +340,10 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
                         <div class="col-md-5 col-sm-5 col-5">
                             ${name ? name : 'Category'}
                         </div>
-                        <div class="col-md-2 col-xs-2 col-2 text-end">
+                        <div class="col-md-2 col-xs-2 col-2 text-end text-right">
                             ${percentage ? this.percentPipe.transform(percentage / 100) : '%'}
                         </div>
-                        <div class="col-md-5 col-sm-5 col-5 text-end">
+                        <div class="col-md-5 col-sm-5 col-5 text-end text-right">
                             ${value ? this.currencyPipe.transform(value, this.currencyCode, 'symbol', '.2') : 'Total'}
                         </div>
                     </div>

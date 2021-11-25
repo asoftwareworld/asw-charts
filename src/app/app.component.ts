@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrencyCodeEnum } from '@asoftwareworld/charts/core';
 import { Options } from 'highcharts';
+import { LegendLayoutEnum } from './component/pie-donut/enum/legend-type.enum';
 import { PointClickEvent } from './component/pie-donut/interface/point-click-event';
 
 @Component({
@@ -12,8 +13,9 @@ export class AppComponent implements OnInit {
     isLegendSort = true;
     title = 'Donut chart';
     label: string | undefined = '';
-    icon = '';
+    icon = 'fa fa-users';
     currencyCode = CurrencyCodeEnum.INR;
+    legendLayout = LegendLayoutEnum.Horizontal;
     amount: number | null | undefined = -345345;
     config: Options = {
         chart: {

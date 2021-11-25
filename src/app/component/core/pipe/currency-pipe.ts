@@ -26,7 +26,6 @@ export class AswCurrencyPipe implements PipeTransform {
         value: number | string | null | undefined, currencyCode: string = this.defaultCurrencyCode,
         display: 'code' | 'symbol' | 'symbol-narrow' | string | boolean = 'symbol', digitsInfo?: string,
         locale?: string): string | null {
-        debugger;
         if (!isValue(value)) { return null; }
 
         locale = locale || this.locale;
