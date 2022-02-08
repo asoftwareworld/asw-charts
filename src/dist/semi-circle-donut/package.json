@@ -1,0 +1,11 @@
+{
+  "main": "../bundles/asoftwareworld-charts-semi-circle-donut.umd.js",
+  "module": "../fesm2015/asoftwareworld-charts-semi-circle-donut.js",
+  "es2015": "../fesm2015/asoftwareworld-charts-semi-circle-donut.js",
+  "esm2015": "../esm2015/semi-circle-donut/asoftwareworld-charts-semi-circle-donut.js",
+  "fesm2015": "../fesm2015/asoftwareworld-charts-semi-circle-donut.js",
+  "typings": "asoftwareworld-charts-semi-circle-donut.d.ts",
+  "metadata": "asoftwareworld-charts-semi-circle-donut.metadata.json",
+  "sideEffects": false,
+  "name": "@asoftwareworld/charts/semi-circle-donut"
+}

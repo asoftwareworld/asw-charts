@@ -1,0 +1,11 @@
+{
+  "main": "../bundles/asoftwareworld-charts-line.umd.js",
+  "module": "../fesm2015/asoftwareworld-charts-line.js",
+  "es2015": "../fesm2015/asoftwareworld-charts-line.js",
+  "esm2015": "../esm2015/line/asoftwareworld-charts-line.js",
+  "fesm2015": "../fesm2015/asoftwareworld-charts-line.js",
+  "typings": "asoftwareworld-charts-line.d.ts",
+  "metadata": "asoftwareworld-charts-line.metadata.json",
+  "sideEffects": false,
+  "name": "@asoftwareworld/charts/line"
+}

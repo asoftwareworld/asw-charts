@@ -5,9 +5,11 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file
  */
-
-export enum LegendPositionEnum {
-    Left = 'left',
-    Right = 'right',
-    Bottom = 'bottom'
+export declare enum GridOptionsEnum {
+    ExtraSmall = "xs",
+    Small = "sm",
+    Medium = "md",
+    Large = "lg",
+    ExtraLarge = "xl",
+    ExtraExtraLarge = "xxl"
 }

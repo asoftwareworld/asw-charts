@@ -1,0 +1,44 @@
+{
+  "name": "@asoftwareworld/charts",
+  "version": "4.0.0",
+  "author": "Anish Sharma",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "~12.2.1",
+    "@angular/core": "~12.2.1"
+  },
+  "dependencies": {
+    "bootstrap": "^5.1.2",
+    "highcharts": "^9.2.2",
+    "tslib": "^2.0.0"
+  },
+  "description": "ASW Form Builder helps you with rapid development and designed web forms which includes several controls. The key feature of Form Builder is to make your content attractive and effective. We can customize our control at run time and preview the same before final submission.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asoftwareworld/asw-charts.git"
+  },
+  "keywords": [
+    "angular",
+    "material",
+    "typescript",
+    "form",
+    "resume",
+    "builder",
+    "credit card",
+    "validator",
+    "asw",
+    "asoftwareworld"
+  ],
+  "bugs": {
+    "url": "https://github.com/asoftwareworld/asw-charts/issues"
+  },
+  "homepage": "https://github.com/asoftwareworld/asw-charts#readme",
+  "main": "bundles/asoftwareworld-charts.umd.js",
+  "module": "fesm2015/asoftwareworld-charts.js",
+  "es2015": "fesm2015/asoftwareworld-charts.js",
+  "esm2015": "esm2015/asoftwareworld-charts.js",
+  "fesm2015": "fesm2015/asoftwareworld-charts.js",
+  "typings": "asoftwareworld-charts.d.ts",
+  "metadata": "asoftwareworld-charts.metadata.json",
+  "sideEffects": false
+}

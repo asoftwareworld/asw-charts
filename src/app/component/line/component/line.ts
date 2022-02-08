@@ -1,11 +1,3 @@
-/**
- * @license
- * Copyright ASW (A Software World) All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file
- */
-
 import { CurrencyPipe, PercentPipe } from '@angular/common';
 import {
     AfterViewInit,
@@ -40,14 +32,13 @@ import {
     SeriesPieOptions,
     VerticalAlignValue
 } from 'highcharts';
-import { ChartTypeEnum } from '../enum/chart-type.enum';
 
 @Component({
-    selector: 'asw-pie-donut',
-    templateUrl: './pie-donut.html',
-    styleUrls: ['./pie-donut.scss']
+    selector: 'asw-line',
+    templateUrl: './line.html',
+    styleUrls: ['./line.scss']
 })
-export class AswPieDonut implements OnChanges, AfterViewInit {
+export class Line implements OnChanges, AfterViewInit {
 
     private cloneConfiguration!: Options;
     public deviceSize: GridOptionsEnum = GridOptionsEnum.Large;
@@ -60,7 +51,6 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
     @Input() label: string | undefined;
     @Input() amount: number | null | undefined;
     @Input() target!: string;
-    @Input() chartType: ChartTypeEnum = ChartTypeEnum.Donut;
     @Input() currencyCode: CurrencyCodeEnum = CurrencyCodeEnum.INR;
     @Input() legendPosition: LegendPositionEnum = LegendPositionEnum.Right;
     @Input() legendType: LegendTypeEnum = LegendTypeEnum.Both;
@@ -69,7 +59,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
 
     @Output() donutSliceClick: EventEmitter<any> = new EventEmitter<any>();
 
-    @ViewChild('pieDonutChart', { static: true }) pieDonutChart!: ElementRef;
+    @ViewChild('lineChart', { static: true }) pieDonutChart!: ElementRef;
     constructor(
         private percentPipe: PercentPipe,
         private currencyPipe: CurrencyPipe,
@@ -99,9 +89,9 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
             if (this.legendLayout === LegendLayoutEnum.Vertical) {
                 this.setDonutChartLegendOption(this.legendWidthPx);
             }
-            if (this.chartType === ChartTypeEnum.Donut) {
-                this.setDonutChartInnerText();
-            }
+            // if (this.chartType === ChartTypeEnum.Donut) {
+            //     this.setDonutChartInnerText();
+            // }
             this.donutChartSliceClick();
             Highcharts.chart(this.pieDonutChart.nativeElement, this.cloneConfiguration);
         }
@@ -180,9 +170,9 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
         series.forEach((seriesOption: SeriesPieOptions) => {
             seriesOption.allowPointSelect = true;
             seriesOption.showInLegend = true;
-            if (this.chartType === ChartTypeEnum.Donut) {
-                seriesOption.innerSize = AswChartConstants.innerSize;
-            }
+            // if (this.chartType === ChartTypeEnum.Donut) {
+            //     seriesOption.innerSize = AswChartConstants.innerSize;
+            // }
             if (this.isMute) {
                 seriesOption.opacity = 0.35;
                 seriesOption.states = {
@@ -437,7 +427,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
         <div style="width: ${width}px; opacity: ${this.isMute ? 0.35 : 1}">
             <div class="row">
                 <div class="col-md-12 text-truncate">
-                    ${this.label ? this.label : ''}
+                    ${this.label}
                 </div>
             </div>
         </div>
@@ -449,7 +439,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
         <div style="width: ${width}px; opacity: ${this.isMute ? 0.35 : 1}">
             <div class="row">
                 <div class="col-md-12 text-truncate">
-                    ${this.icon ? this.icon : ''}
+                    ${this.icon}
                 </div>
             </div>
         </div>
@@ -461,7 +451,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
         <div style="width: ${width}px; opacity: ${this.isMute ? 0.35 : 1}">
             <div class="row">
                 <div class="col-md-12 text-truncate">
-                    <strong>${this.amount ? this.aswCurrencyPipe.transform(this.amount) : ''}</strong>
+                    <strong>${this.aswCurrencyPipe.transform(this.amount)}</strong>
                 </div>
             </div>
         </div>

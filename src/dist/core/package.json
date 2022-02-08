@@ -1,0 +1,11 @@
+{
+  "main": "../bundles/asoftwareworld-charts-core.umd.js",
+  "module": "../fesm2015/asoftwareworld-charts-core.js",
+  "es2015": "../fesm2015/asoftwareworld-charts-core.js",
+  "esm2015": "../esm2015/core/asoftwareworld-charts-core.js",
+  "fesm2015": "../fesm2015/asoftwareworld-charts-core.js",
+  "typings": "asoftwareworld-charts-core.d.ts",
+  "metadata": "asoftwareworld-charts-core.metadata.json",
+  "sideEffects": false,
+  "name": "@asoftwareworld/charts/core"
+}

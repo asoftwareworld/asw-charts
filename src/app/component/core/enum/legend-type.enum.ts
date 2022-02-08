@@ -12,13 +12,14 @@ export enum LegendTypeEnum {
     Both = 'both'
 }
 
-export enum ChartTypeEnum {
-    Pie = 'pie',
-    Donut = 'donut'
-}
-
 export enum LegendLayoutEnum {
     Vertical = 'vertical',
     Horizontal = 'horizontal',
     Proximate = 'proximate'
+}
+
+export enum LegendPositionEnum {
+    Left = 'left',
+    Right = 'right',
+    Bottom = 'bottom'
 }
