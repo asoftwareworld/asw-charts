@@ -39,12 +39,10 @@
 
 # Documentation
 
-`ASW Form Builder` helps you with rapid development and designed web forms which includes several controls. The key feature of `Form Builder` is to make your content attractive and effective. We can customize our control at run time and preview the same before final submission.
-
-`Form Builder` is compatible with the latest version of Angular and Angular Material. Only a few clicks can create an attractive web form and provide a JSON Schema to render all controls.
+`ASW Charts` helps you with the Highcharts library comes with all the tools you need to create reliable and secure data visualizations and Built on Angular.
 
 ## Installation
-Below are some prerequisites before install `Form Builder`.
+Below are some prerequisites before install `Charts`.
 
 ### Step 1: Install Bootstrap
 Install `Bootstrap` source Sass files by running the following command:
@@ -408,10 +406,10 @@ and Bootstrap [more information](https://getbootstrap.com/docs/4.0/getting-start
 | ![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | 
 | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | 
 | Latest ✔                                                                                 | Latest ✔                                                                                    | Latest ✔                                                                                 | Latest ✔                                                                              | Latest ✔                                                                                                                                                                                                    |
-## [Report a bug](https://github.com/asoftwareworld/ASW-Form-Builder/issues)
-We use GitHub Issues as the official bug tracker for the ASW Form Builder. Here are some advices for our users that want to report an issue:
+## [Report a bug](https://github.com/asoftwareworld/ASW-Charts/issues)
+We use GitHub Issues as the official bug tracker for the ASW Charts. Here are some advices for our users that want to report an issue:
 
-1. Make sure that you are using the latest version of the ASW Form Builder.
+1. Make sure that you are using the latest version of the ASW Charts.
 2. Providing us reproducible steps for the issue will shorten the time it takes for it to be fixed.
 3. Some issues may be browser specific, so specifying in what browser you encountered the issue might help.
 
