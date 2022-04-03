@@ -4,7 +4,7 @@
     "newProjectRoot": "projects",
     "projects": {
         "charts": {
-            "root": "",
+            "root": "src",
             "projectType": "library",
             "architect": {
                 "build": {
