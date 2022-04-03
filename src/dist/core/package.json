@@ -1,11 +1,10 @@
 {
-  "main": "../bundles/asoftwareworld-charts-core.umd.js",
-  "module": "../fesm2015/asoftwareworld-charts-core.js",
-  "es2015": "../fesm2015/asoftwareworld-charts-core.js",
-  "esm2015": "../esm2015/core/asoftwareworld-charts-core.js",
-  "fesm2015": "../fesm2015/asoftwareworld-charts-core.js",
+  "module": "../fesm2015/asoftwareworld-charts-core.mjs",
+  "es2020": "../fesm2020/asoftwareworld-charts-core.mjs",
+  "esm2020": "../esm2020/core/asoftwareworld-charts-core.mjs",
+  "fesm2020": "../fesm2020/asoftwareworld-charts-core.mjs",
+  "fesm2015": "../fesm2015/asoftwareworld-charts-core.mjs",
   "typings": "asoftwareworld-charts-core.d.ts",
-  "metadata": "asoftwareworld-charts-core.metadata.json",
   "sideEffects": false,
   "name": "@asoftwareworld/charts/core"
 }

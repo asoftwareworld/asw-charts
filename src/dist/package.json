@@ -1,6 +1,6 @@
 {
   "name": "@asoftwareworld/charts",
-  "version": "4.0.0",
+  "version": "1.0.0",
   "author": "Anish Sharma",
   "license": "MIT",
   "peerDependencies": {
@@ -33,12 +33,72 @@
     "url": "https://github.com/asoftwareworld/asw-charts/issues"
   },
   "homepage": "https://github.com/asoftwareworld/asw-charts#readme",
-  "main": "bundles/asoftwareworld-charts.umd.js",
-  "module": "fesm2015/asoftwareworld-charts.js",
-  "es2015": "fesm2015/asoftwareworld-charts.js",
-  "esm2015": "esm2015/asoftwareworld-charts.js",
-  "fesm2015": "fesm2015/asoftwareworld-charts.js",
+  "module": "fesm2015/asoftwareworld-charts.mjs",
+  "es2020": "fesm2020/asoftwareworld-charts.mjs",
+  "esm2020": "esm2020/asoftwareworld-charts.mjs",
+  "fesm2020": "fesm2020/asoftwareworld-charts.mjs",
+  "fesm2015": "fesm2015/asoftwareworld-charts.mjs",
   "typings": "asoftwareworld-charts.d.ts",
-  "metadata": "asoftwareworld-charts.metadata.json",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./asoftwareworld-charts.d.ts",
+      "esm2020": "./esm2020/asoftwareworld-charts.mjs",
+      "es2020": "./fesm2020/asoftwareworld-charts.mjs",
+      "es2015": "./fesm2015/asoftwareworld-charts.mjs",
+      "node": "./fesm2015/asoftwareworld-charts.mjs",
+      "default": "./fesm2020/asoftwareworld-charts.mjs"
+    },
+    "./bar-column": {
+      "types": "./bar-column/asoftwareworld-charts-bar-column.d.ts",
+      "esm2020": "./esm2020/bar-column/asoftwareworld-charts-bar-column.mjs",
+      "es2020": "./fesm2020/asoftwareworld-charts-bar-column.mjs",
+      "es2015": "./fesm2015/asoftwareworld-charts-bar-column.mjs",
+      "node": "./fesm2015/asoftwareworld-charts-bar-column.mjs",
+      "default": "./fesm2020/asoftwareworld-charts-bar-column.mjs"
+    },
+    "./core": {
+      "types": "./core/asoftwareworld-charts-core.d.ts",
+      "esm2020": "./esm2020/core/asoftwareworld-charts-core.mjs",
+      "es2020": "./fesm2020/asoftwareworld-charts-core.mjs",
+      "es2015": "./fesm2015/asoftwareworld-charts-core.mjs",
+      "node": "./fesm2015/asoftwareworld-charts-core.mjs",
+      "default": "./fesm2020/asoftwareworld-charts-core.mjs"
+    },
+    "./line": {
+      "types": "./line/asoftwareworld-charts-line.d.ts",
+      "esm2020": "./esm2020/line/asoftwareworld-charts-line.mjs",
+      "es2020": "./fesm2020/asoftwareworld-charts-line.mjs",
+      "es2015": "./fesm2015/asoftwareworld-charts-line.mjs",
+      "node": "./fesm2015/asoftwareworld-charts-line.mjs",
+      "default": "./fesm2020/asoftwareworld-charts-line.mjs"
+    },
+    "./pie-donut": {
+      "types": "./pie-donut/asoftwareworld-charts-pie-donut.d.ts",
+      "esm2020": "./esm2020/pie-donut/asoftwareworld-charts-pie-donut.mjs",
+      "es2020": "./fesm2020/asoftwareworld-charts-pie-donut.mjs",
+      "es2015": "./fesm2015/asoftwareworld-charts-pie-donut.mjs",
+      "node": "./fesm2015/asoftwareworld-charts-pie-donut.mjs",
+      "default": "./fesm2020/asoftwareworld-charts-pie-donut.mjs"
+    },
+    "./semi-circle-donut": {
+      "types": "./semi-circle-donut/asoftwareworld-charts-semi-circle-donut.d.ts",
+      "esm2020": "./esm2020/semi-circle-donut/asoftwareworld-charts-semi-circle-donut.mjs",
+      "es2020": "./fesm2020/asoftwareworld-charts-semi-circle-donut.mjs",
+      "es2015": "./fesm2015/asoftwareworld-charts-semi-circle-donut.mjs",
+      "node": "./fesm2015/asoftwareworld-charts-semi-circle-donut.mjs",
+      "default": "./fesm2020/asoftwareworld-charts-semi-circle-donut.mjs"
+    },
+    "./utils": {
+      "types": "./utils/asoftwareworld-charts-utils.d.ts",
+      "esm2020": "./esm2020/utils/asoftwareworld-charts-utils.mjs",
+      "es2020": "./fesm2020/asoftwareworld-charts-utils.mjs",
+      "es2015": "./fesm2015/asoftwareworld-charts-utils.mjs",
+      "node": "./fesm2015/asoftwareworld-charts-utils.mjs",
+      "default": "./fesm2020/asoftwareworld-charts-utils.mjs"
+    }
+  },
   "sideEffects": false
 }

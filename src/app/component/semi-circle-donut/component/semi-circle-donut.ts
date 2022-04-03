@@ -14,6 +14,8 @@ import * as Highcharts from 'highcharts';
 declare var require: any;
 const HighchartsMore = require('highcharts/highcharts-more.src');
 HighchartsMore(Highcharts);
+const HighchartsSolidGauge = require('highcharts/modules/solid-gauge.src');
+HighchartsSolidGauge(Highcharts);
 
 import {
     AlignValue,
@@ -75,11 +77,11 @@ export class AswSemiCircleDonut implements OnChanges, AfterViewInit {
     initializeChart(): void {
         if (this.config) {
             this.cloneConfiguration = this.config;
-            const containerWidth = this.semiCircleDonutChart.nativeElement.clientWidth;
-            this.deviceSize = ObjectUtils.findDeviceSize(containerWidth);
+            // const containerWidth = this.semiCircleDonutChart.nativeElement.clientWidth;
+            // this.deviceSize = ObjectUtils.findDeviceSize(containerWidth);
             // this.findDeviceSize();
             // this.removeChartCredit();
-            // this.setDonutChartTooltip();
+           // this.setSemiDonutChartTooltip();
             // const series: SeriesPieOptions[] = this.cloneConfiguration.series as SeriesPieOptions[];
             // this.setDonutChartSeriesOptions(series);
             // this.setDonutChartLegendOption(this.legendWidthPx);
@@ -97,7 +99,7 @@ export class AswSemiCircleDonut implements OnChanges, AfterViewInit {
         };
     }
 
-    private setDonutChartTooltip(): void {
+    private setSemiDonutChartTooltip(): void {
         const this$: this = this;
         this.cloneConfiguration.tooltip = {
             useHTML: true,
@@ -112,6 +114,7 @@ export class AswSemiCircleDonut implements OnChanges, AfterViewInit {
             enabled: this.isMute ? false : true,
             formatter(): string {
                 const percentage: number = this.point.percentage as number;
+                debugger;
                 return `
                      <div class="row">
                          <div class="col-md-12 text-end">
@@ -120,9 +123,6 @@ export class AswSemiCircleDonut implements OnChanges, AfterViewInit {
                          </div>
                          <div class="col-md-12 text-end">
                              ${this$.percentPipe.transform(percentage / 100, '.2')}
-                         </div>
-                         <div class="col-md-12 text-end">
-                             ${this$.currencyPipe.transform(this.point.options.value, this$.currencyCode)}
                          </div>
                      </div>
                  `;

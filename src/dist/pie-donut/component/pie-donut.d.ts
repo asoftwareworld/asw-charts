@@ -7,9 +7,10 @@
  */
 import { CurrencyPipe, PercentPipe } from '@angular/common';
 import { AfterViewInit, ElementRef, EventEmitter, OnChanges } from '@angular/core';
-import { AswCurrencyPipe, CurrencyCodeEnum, GridOptionsEnum, LegendLayoutEnum, LegendPositionEnum, LegendTypeEnum } from '@asoftwareworld/charts/core';
+import { AswCurrencyPipe, CurrencyCodeEnum, GridOptionsEnum, LegendLayoutEnum, LegendPositionEnum, PieLegendTypeEnum } from '@asoftwareworld/charts/core';
 import { Options } from 'highcharts';
 import { ChartTypeEnum } from '../enum/chart-type.enum';
+import * as i0 from "@angular/core";
 export declare class AswPieDonut implements OnChanges, AfterViewInit {
     private percentPipe;
     private currencyPipe;
@@ -28,7 +29,7 @@ export declare class AswPieDonut implements OnChanges, AfterViewInit {
     chartType: ChartTypeEnum;
     currencyCode: CurrencyCodeEnum;
     legendPosition: LegendPositionEnum;
-    legendType: LegendTypeEnum;
+    legendType: PieLegendTypeEnum;
     legendWidthPx: number;
     legendLayout: LegendLayoutEnum;
     donutSliceClick: EventEmitter<any>;
@@ -54,4 +55,6 @@ export declare class AswPieDonut implements OnChanges, AfterViewInit {
     private setInnerTextIcon;
     private setInnerTextValue;
     private setInnerTextTarget;
+    static ɵfac: i0.ɵɵFactoryDeclaration<AswPieDonut, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<AswPieDonut, "asw-pie-donut", never, { "config": "config"; "isLegendSort": "isLegendSort"; "isMute": "isMute"; "isLegendDisplay": "isLegendDisplay"; "icon": "icon"; "label": "label"; "amount": "amount"; "target": "target"; "chartType": "chartType"; "currencyCode": "currencyCode"; "legendPosition": "legendPosition"; "legendType": "legendType"; "legendWidthPx": "legendWidthPx"; "legendLayout": "legendLayout"; }, { "donutSliceClick": "donutSliceClick"; }, never, never>;
 }

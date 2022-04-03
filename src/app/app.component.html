@@ -11,13 +11,39 @@
             (donutSliceClick)="donutSliceClick($event)">
         </asw-pie-donut>
     </div>
+    <div class="col-md-6">
+        <asw-line
+            [config]="lineConfig"
+            [currencyCode]="currencyCode"
+            [isLegendSort]="isLegendSort"
+            [legendType]="lineChartLegendType"
+            [legendLayout]="legendLayout"
+            [legendPosition]="legendPosition"
+            [isLegendDisplay]="isLegendDisplay"
+            (linePointClick)="linePointClick($event)">
+        </asw-line>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <asw-bar-column
+            [config]="barChartConfig"
+            [isLegendSort]="isLegendSort"
+            [legendLayout]="legendLayout"
+            [legendPosition]="legendPosition"
+            (barClick)="barClick($event)">
+        </asw-bar-column>
+    </div>
 </div>
 
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-6">
         <asw-semi-circle-donut
             [config]="semiCircleDonut">
 
         </asw-semi-circle-donut>
     </div>
+</div>
+<div class="row">
+    
 </div>

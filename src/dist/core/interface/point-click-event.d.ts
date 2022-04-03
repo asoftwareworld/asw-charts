@@ -12,3 +12,9 @@ export interface PointClickEvent {
     percentage: number | undefined;
     target: number | undefined;
 }
+export interface ChartPointerEvent {
+    index: number | undefined;
+    name: string | undefined;
+    value: number | null | undefined;
+    category: string | undefined;
+}

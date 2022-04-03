@@ -1,0 +1,10 @@
+{
+  "module": "../fesm2015/asoftwareworld-charts-bar-column.mjs",
+  "es2020": "../fesm2020/asoftwareworld-charts-bar-column.mjs",
+  "esm2020": "../esm2020/bar-column/asoftwareworld-charts-bar-column.mjs",
+  "fesm2020": "../fesm2020/asoftwareworld-charts-bar-column.mjs",
+  "fesm2015": "../fesm2015/asoftwareworld-charts-bar-column.mjs",
+  "typings": "asoftwareworld-charts-bar-column.d.ts",
+  "sideEffects": false,
+  "name": "@asoftwareworld/charts/bar-column"
+}

@@ -17,5 +17,6 @@ export declare enum CurrencyCodeEnum {
     USD = "USD",
     EUR = "EUR",
     JPY = "JPY",
-    Test = "PKR"
+    Test = "PKR",
+    Blank = ""
 }

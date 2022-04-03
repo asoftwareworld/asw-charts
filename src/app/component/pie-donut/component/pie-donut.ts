@@ -25,7 +25,7 @@ import {
     GridOptionsEnum,
     LegendLayoutEnum,
     LegendPositionEnum,
-    LegendTypeEnum,
+    PieLegendTypeEnum,
     PointClickEvent
 } from '@asoftwareworld/charts/core';
 import { ObjectUtils } from '@asoftwareworld/charts/utils';
@@ -63,7 +63,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
     @Input() chartType: ChartTypeEnum = ChartTypeEnum.Donut;
     @Input() currencyCode: CurrencyCodeEnum = CurrencyCodeEnum.INR;
     @Input() legendPosition: LegendPositionEnum = LegendPositionEnum.Right;
-    @Input() legendType: LegendTypeEnum = LegendTypeEnum.Both;
+    @Input() legendType: PieLegendTypeEnum = PieLegendTypeEnum.Both;
     @Input() legendWidthPx = 250;
     @Input() legendLayout: LegendLayoutEnum = LegendLayoutEnum.Vertical;
 
@@ -96,13 +96,15 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
             this.setDonutChartTooltip();
             const series: SeriesPieOptions[] = this.cloneConfiguration.series as SeriesPieOptions[];
             this.setDonutChartSeriesOptions(series);
-            if (this.legendLayout === LegendLayoutEnum.Vertical) {
-                this.setDonutChartLegendOption(this.legendWidthPx);
+            if (series[0].data?.length) {
+                if (this.legendLayout === LegendLayoutEnum.Vertical) {
+                    this.setDonutChartLegendOption(this.legendWidthPx);
+                }
+                if (this.chartType === ChartTypeEnum.Donut) {
+                    this.setDonutChartInnerText();
+                }
+                this.donutChartSliceClick();
             }
-            if (this.chartType === ChartTypeEnum.Donut) {
-                this.setDonutChartInnerText();
-            }
-            this.donutChartSliceClick();
             Highcharts.chart(this.pieDonutChart.nativeElement, this.cloneConfiguration);
         }
     }
@@ -204,7 +206,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
     }
 
     private sortSeriesData(data: PointOptionsObject[]): PointOptionsObject[] {
-        if (this.legendType === LegendTypeEnum.Default) {
+        if (this.legendType === PieLegendTypeEnum.Default) {
             data.sort((a: any, b: any) => {
                 return ('' + a.name).localeCompare(b.name);
             });
@@ -306,7 +308,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
         let legendValueWidthPx: number;
         let legendPercentageWidthPx: number;
         switch (this.legendType) {
-            case LegendTypeEnum.Default:
+            case PieLegendTypeEnum.Default:
                 return `
                 <div style="width:${legendWidthPx}px">
                     <div class="row">
@@ -316,7 +318,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
                     </div>
                 </div>
                 `;
-            case LegendTypeEnum.Percentage:
+            case PieLegendTypeEnum.Percentage:
                 legendCategoryWidthPx = legendWidthPx * 0.9;
                 legendPercentageWidthPx = legendWidthPx * 0.1;
                 return `
@@ -331,7 +333,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
                     </div>
                 </div>
                 `;
-            case LegendTypeEnum.Value:
+            case PieLegendTypeEnum.Value:
                 legendCategoryWidthPx = legendWidthPx * 0.5;
                 legendValueWidthPx = legendWidthPx * 0.5;
                 return `
@@ -341,7 +343,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
                             ${name ? name : 'Category'}
                         </div>
                         <div class="col-md-6 col-sm-6 col-6 text-end text-right">
-                            ${value ? this.currencyPipe.transform(value, 'INR') : 'Total'}
+                            ${value ? this.currencyPipe.transform(value, this.currencyCode) : 'Total'}
                         </div>
                     </div>
                 </div>
@@ -461,7 +463,7 @@ export class AswPieDonut implements OnChanges, AfterViewInit {
         <div style="width: ${width}px; opacity: ${this.isMute ? 0.35 : 1}">
             <div class="row">
                 <div class="col-md-12 text-truncate">
-                    <strong>${this.amount ? this.aswCurrencyPipe.transform(this.amount) : ''}</strong>
+                    <strong>${this.amount ? this.currencyPipe.transform(this.amount, this.currencyCode) : ''}</strong>
                 </div>
             </div>
         </div>

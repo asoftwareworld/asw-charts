@@ -1,13 +1,19 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Line } from './component/line';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { AswLine } from './component/line';
 
 @NgModule({
     declarations: [
-        Line
+        AswLine
     ],
     imports: [
         CommonModule
+    ],
+    exports: [
+        AswLine
+    ],
+    providers: [
+        CurrencyPipe
     ]
 })
-export class LineModule { }
+export class AswLineModule { }

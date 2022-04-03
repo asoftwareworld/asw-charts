@@ -1,4 +1,4 @@
-import { CurrencyPipe, PercentPipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import {
     AfterViewInit,
     Component,
@@ -13,12 +13,12 @@ import {
 import {
     AswChartConstants,
     AswCurrencyPipe,
+    ChartLegendTypeEnum,
+    ChartPointerEvent,
     CurrencyCodeEnum,
     GridOptionsEnum,
     LegendLayoutEnum,
     LegendPositionEnum,
-    LegendTypeEnum,
-    PointClickEvent
 } from '@asoftwareworld/charts/core';
 import { ObjectUtils } from '@asoftwareworld/charts/utils';
 import * as Highcharts from 'highcharts';
@@ -38,30 +38,24 @@ import {
     templateUrl: './line.html',
     styleUrls: ['./line.scss']
 })
-export class Line implements OnChanges, AfterViewInit {
+export class AswLine implements OnChanges, AfterViewInit {
 
     private cloneConfiguration!: Options;
     public deviceSize: GridOptionsEnum = GridOptionsEnum.Large;
     private viewInitialized = false;
     @Input() config!: Options;
     @Input() isLegendSort = true;
-    @Input() isMute = false;
     @Input() isLegendDisplay = true;
-    @Input() icon!: string;
-    @Input() label: string | undefined;
-    @Input() amount: number | null | undefined;
-    @Input() target!: string;
     @Input() currencyCode: CurrencyCodeEnum = CurrencyCodeEnum.INR;
     @Input() legendPosition: LegendPositionEnum = LegendPositionEnum.Right;
-    @Input() legendType: LegendTypeEnum = LegendTypeEnum.Both;
+    @Input() legendType: ChartLegendTypeEnum = ChartLegendTypeEnum.Both;
     @Input() legendWidthPx = 250;
     @Input() legendLayout: LegendLayoutEnum = LegendLayoutEnum.Vertical;
 
-    @Output() donutSliceClick: EventEmitter<any> = new EventEmitter<any>();
+    @Output() linePointClick: EventEmitter<any> = new EventEmitter<any>();
 
-    @ViewChild('lineChart', { static: true }) pieDonutChart!: ElementRef;
+    @ViewChild('lineChart', { static: true }) lineChart!: ElementRef;
     constructor(
-        private percentPipe: PercentPipe,
         private currencyPipe: CurrencyPipe,
         private aswCurrencyPipe: AswCurrencyPipe) { }
 
@@ -80,20 +74,17 @@ export class Line implements OnChanges, AfterViewInit {
     initializeChart(): void {
         if (this.config) {
             this.cloneConfiguration = this.config;
-            const containerWidth = this.pieDonutChart.nativeElement.clientWidth;
+            const containerWidth = this.lineChart.nativeElement.clientWidth;
             this.deviceSize = ObjectUtils.findDeviceSize(containerWidth);
             this.removeChartCredit();
-            this.setDonutChartTooltip();
+            this.setLineChartTooltip();
             const series: SeriesPieOptions[] = this.cloneConfiguration.series as SeriesPieOptions[];
-            this.setDonutChartSeriesOptions(series);
+            this.setLineChartSeriesOptions(series);
             if (this.legendLayout === LegendLayoutEnum.Vertical) {
-                this.setDonutChartLegendOption(this.legendWidthPx);
+                this.setLineChartLegendOption(this.legendWidthPx);
             }
-            // if (this.chartType === ChartTypeEnum.Donut) {
-            //     this.setDonutChartInnerText();
-            // }
-            this.donutChartSliceClick();
-            Highcharts.chart(this.pieDonutChart.nativeElement, this.cloneConfiguration);
+            this.clickOnLinePoint();
+            Highcharts.chart(this.lineChart.nativeElement, this.cloneConfiguration);
         }
     }
 
@@ -108,7 +99,7 @@ export class Line implements OnChanges, AfterViewInit {
         };
     }
 
-    private setDonutChartTooltip(): void {
+    private setLineChartTooltip(): void {
         const this$: this = this;
         this.cloneConfiguration.tooltip = {
             useHTML: true,
@@ -120,20 +111,19 @@ export class Line implements OnChanges, AfterViewInit {
                 fontWeight: AswChartConstants.fontWeight
             },
             borderRadius: 0,
-            enabled: this.isMute ? false : true,
+            enabled: true,
             formatter(): string {
-                const percentage: number = this.point.percentage as number;
                 return `
                     <div class="row">
                         <div class="col-md-12 text-end text-right">
+                            <strong>${this.point.category}</strong>
+                        </div>
+                        <div class="col-md-12 text-end text-right">
                             <span style="color: ${this.point.color}">\u25A0</span>
-                            <strong>${this.point.name}</strong>
+                            <strong>${this.point.series.name}</strong>
                         </div>
                         <div class="col-md-12 text-end text-right">
-                            ${this$.percentPipe.transform(percentage / 100, '.2')}
-                        </div>
-                        <div class="col-md-12 text-end text-right">
-                            ${this$.currencyPipe.transform(this.point.options.value, this$.currencyCode)}
+                            ${this$.currencyPipe.transform(this.point.options.y, this$.currencyCode)}
                         </div>
                     </div>
                 `;
@@ -141,60 +131,39 @@ export class Line implements OnChanges, AfterViewInit {
         };
     }
 
-    private donutChartSliceClick(): void {
-        if (this.isMute) { return; }
-        this.cloneConfiguration.plotOptions = {
-            series: {
-                dataLabels: {
-                    enabled: false
-                },
-                point: {
-                    events: {
-                        click: ((event: PointClickEventObject) => {
-                            const pointClickEvent: PointClickEvent = {
-                                name: event.point.name,
-                                id: event.point.options.id,
-                                percentage: event.point.percentage,
-                                value: event.point.options.value,
-                                target: event.point.options.target
-                            };
-                            this.donutSliceClick.emit(pointClickEvent);
-                        })
-                    }
+    private clickOnLinePoint(): void {
+        // tslint:disable-next-line:no-non-null-assertion
+        this.cloneConfiguration.plotOptions!.line = {
+            point: {
+                events: {
+                    click: ((event: PointClickEventObject) => {
+                        const pointClickEvent: ChartPointerEvent = {
+                            name: event.point.series.name,
+                            index: event.point.index,
+                            value: event.point.options.y,
+                            category: event.point.category
+                        };
+                        this.linePointClick.emit(pointClickEvent);
+                    })
                 }
             }
         };
     }
 
-    private setDonutChartSeriesOptions(series: SeriesPieOptions[]): void {
+    private setLineChartSeriesOptions(series: SeriesPieOptions[]): void {
         series.forEach((seriesOption: SeriesPieOptions) => {
             seriesOption.allowPointSelect = true;
             seriesOption.showInLegend = true;
-            // if (this.chartType === ChartTypeEnum.Donut) {
-            //     seriesOption.innerSize = AswChartConstants.innerSize;
-            // }
-            if (this.isMute) {
-                seriesOption.opacity = 0.35;
-                seriesOption.states = {
-                    hover: {
-                        enabled: false
-                    },
-                    inactive: {
-                        enabled: false
-                    }
-                };
-                seriesOption.slicedOffset = 0;
-            }
             seriesOption.cursor = AswChartConstants.pointer;
             const data: PointOptionsObject[] = seriesOption.data as PointOptionsObject[];
-            this.handleNegativeSeriesData(data);
-            const sortedSeriesOptionData: PointOptionsObject[] = this.isLegendSort ? this.sortSeriesData(data) : data;
-            seriesOption.data = sortedSeriesOptionData;
+            // this.handleNegativeSeriesData(data);
+            // const sortedSeriesOptionData: PointOptionsObject[] = this.isLegendSort ? this.sortSeriesData(data) : data;
+            // seriesOption.data = sortedSeriesOptionData;
         });
     }
 
     private sortSeriesData(data: PointOptionsObject[]): PointOptionsObject[] {
-        if (this.legendType === LegendTypeEnum.Default) {
+        if (this.legendType === ChartLegendTypeEnum.Default) {
             data.sort((a: any, b: any) => {
                 return ('' + a.name).localeCompare(b.name);
             });
@@ -219,11 +188,11 @@ export class Line implements OnChanges, AfterViewInit {
         });
     }
 
-    private setDonutChartLegendOption(legendWidthPx: number): void {
+    private setLineChartLegendOption(legendWidthPx: number): void {
         const this$: this = this;
         this.cloneConfiguration.legend = {
             useHTML: true,
-            enabled: this.isMute ? false : this.isLegendDisplay,
+            enabled: this.isLegendDisplay,
             floating: false,
             align: this.setLegendAlignment(),
             layout: 'vertical',
@@ -239,7 +208,7 @@ export class Line implements OnChanges, AfterViewInit {
             },
             width: legendWidthPx + 15,
             title: {
-                text: this$.setDonutChartLegendWithHeader(legendWidthPx + 15),
+                text: this$.setLineChartLegendWithHeader(legendWidthPx + 15),
                 style: {
                     fontSize: this.deviceSize === GridOptionsEnum.ExtraSmall
                         ? AswChartConstants.fontSize12 : AswChartConstants.fontSize14,
@@ -249,18 +218,14 @@ export class Line implements OnChanges, AfterViewInit {
                 }
             },
             labelFormatter(): string {
-                const point: Point = this as Point;
-                return this$.setDonutChartLegendWithHeader(
+                const point: any = this as Point;
+                const value = point.yData.reduce((acc: any, cur: any) => acc + cur, 0);
+                return this$.setLineChartLegendWithHeader(
                     legendWidthPx,
                     point.name,
-                    point.percentage,
-                    point.options.value);
+                    value);
             }
         };
-    }
-
-    private setFontSize(): string {
-        return this.deviceSize === GridOptionsEnum.ExtraSmall ? AswChartConstants.fontSize14 : AswChartConstants.fontSize16;
     }
 
     private setLegendAlignment(): AlignValue {
@@ -287,186 +252,35 @@ export class Line implements OnChanges, AfterViewInit {
         }
     }
 
-    private setDonutChartLegendWithHeader(
+    private setLineChartLegendWithHeader(
         legendWidthPx: number,
         name?: string | null,
-        percentage?: number | undefined,
         value?: number | null | undefined): string {
         let legendCategoryWidthPx: number;
         let legendValueWidthPx: number;
-        let legendPercentageWidthPx: number;
-        switch (this.legendType) {
-            case LegendTypeEnum.Default:
-                return `
+        if (this.legendType === ChartLegendTypeEnum.Default) {
+            return `
                 <div style="width:${legendWidthPx}px">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-12">
                             ${name ? name : 'Category'}
                         </div>
                     </div>
-                </div>
-                `;
-            case LegendTypeEnum.Percentage:
-                legendCategoryWidthPx = legendWidthPx * 0.9;
-                legendPercentageWidthPx = legendWidthPx * 0.1;
-                return `
-                <div style="width:${legendCategoryWidthPx + legendPercentageWidthPx}px">
-                    <div class="row">
-                        <div class="col-md-8 col-sm-8 col-8">
-                            ${name ? name : 'Category'}
-                        </div>
-                        <div class="col-md-4 col-sm-4 col-4 text-end text-right">
-                            ${percentage ? this.percentPipe.transform(percentage / 100, '.0') : '%'}
-                        </div>
-                    </div>
-                </div>
-                `;
-            case LegendTypeEnum.Value:
-                legendCategoryWidthPx = legendWidthPx * 0.5;
-                legendValueWidthPx = legendWidthPx * 0.5;
-                return `
+                </div>`;
+        } else {
+            legendCategoryWidthPx = legendWidthPx * 0.5;
+            legendValueWidthPx = legendWidthPx * 0.5;
+            return `
                 <div style="width:${legendCategoryWidthPx + legendValueWidthPx}px">
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-6">
                             ${name ? name : 'Category'}
                         </div>
                         <div class="col-md-6 col-sm-6 col-6 text-end text-right">
-                            ${value ? this.currencyPipe.transform(value, 'INR') : 'Total'}
-                        </div>
-                    </div>
-                </div>
-                `;
-            default:
-                legendCategoryWidthPx = legendWidthPx * 0.5;
-                legendPercentageWidthPx = legendWidthPx * 0.1;
-                legendValueWidthPx = legendWidthPx * 0.4;
-                return `
-                <div style="width:${legendCategoryWidthPx + legendPercentageWidthPx + legendValueWidthPx}px">
-                    <div class="row">
-                        <div class="col-md-5 col-sm-5 col-5">
-                            ${name ? name : 'Category'}
-                        </div>
-                        <div class="col-md-2 col-xs-2 col-2 text-end text-right">
-                            ${percentage ? this.percentPipe.transform(percentage / 100) : '%'}
-                        </div>
-                        <div class="col-md-5 col-sm-5 col-5 text-end text-right">
                             ${value ? this.currencyPipe.transform(value, this.currencyCode, 'symbol', '.2') : 'Total'}
                         </div>
                     </div>
-                </div>
-                `;
+                </div>`;
         }
-    }
-
-    private setDonutChartInnerText(): void {
-        const this$: this = this;
-        this.cloneConfiguration.chart = {
-            events: {
-                load(): void {
-                    let centerX: number;
-                    let centerY: number;
-                    let itemWidth: number;
-                    this.series.forEach((element: Series) => {
-                        const points: Point[] = element.points.slice(0, 1);
-                        points.forEach((point: any) => {
-                            centerX = this.plotLeft + (point.shapeArgs.x - point.shapeArgs.innerR) + 8;
-                            centerY = this.plotTop + point.shapeArgs.y - 14;
-                            itemWidth = (point.shapeArgs.innerR * 2) - 20;
-                        });
-                        if (this$.icon) {
-                            this.renderer.label(this$.setInnerTextIcon(itemWidth),
-                                centerX, this$.deviceSize === GridOptionsEnum.ExtraSmall ? centerY - 20 : centerY - 25,
-                                undefined, 30, 30, true).css({
-                                    fontSize: this$.setFontSize(),
-                                    textAlign: AswChartConstants.centerAlign,
-                                    fontWeight: AswChartConstants.fontWeight
-                                }).add();
-                            this.renderer.label(this$.setInnerTextLabel(itemWidth),
-                                centerX, centerY, undefined, 30, 30, true).css({
-                                    fontSize: this$.setFontSize(),
-                                    textAlign: AswChartConstants.centerAlign,
-                                    fontWeight: AswChartConstants.fontWeight
-                                }).add();
-                            this.renderer.label(this$.setInnerTextValue(itemWidth),
-                                centerX, this$.deviceSize === GridOptionsEnum.ExtraSmall ? centerY + 20 : centerY + 25,
-                                undefined, 30, 30, true).css({
-                                    fontSize: this$.setFontSize(),
-                                    textAlign: AswChartConstants.centerAlign,
-                                    fontWeight: AswChartConstants.fontWeight
-                                }).add();
-                        } else {
-                            this.renderer.label(this$.setInnerTextLabel(itemWidth),
-                                centerX, this$.deviceSize === GridOptionsEnum.ExtraSmall ? centerY - 20 : centerY - 25,
-                                undefined, 30, 30, true).css({
-                                    fontSize: this$.setFontSize(),
-                                    textAlign: AswChartConstants.centerAlign,
-                                    fontWeight: AswChartConstants.fontWeight
-                                }).add();
-                            this.renderer.label(this$.setInnerTextValue(itemWidth),
-                                centerX, centerY, undefined, 30, 30, true).css({
-                                    fontSize: this$.setFontSize(),
-                                    textAlign: AswChartConstants.centerAlign,
-                                    fontWeight: AswChartConstants.fontWeight
-                                }).add();
-                            this.renderer.label(this$.setInnerTextTarget(itemWidth),
-                                centerX, this$.deviceSize === GridOptionsEnum.ExtraSmall ? centerY + 20 : centerY + 25,
-                                undefined, 30, 30, true).css({
-                                    fontSize: this$.setFontSize(),
-                                    textAlign: AswChartConstants.centerAlign,
-                                    fontWeight: AswChartConstants.fontWeight
-                                }).add();
-                        }
-                    });
-                }
-            }
-        };
-    }
-
-    private setInnerTextLabel(width: number): string {
-        return `
-        <div style="width: ${width}px; opacity: ${this.isMute ? 0.35 : 1}">
-            <div class="row">
-                <div class="col-md-12 text-truncate">
-                    ${this.label}
-                </div>
-            </div>
-        </div>
-        `;
-    }
-
-    private setInnerTextIcon(width: number): string {
-        return `
-        <div style="width: ${width}px; opacity: ${this.isMute ? 0.35 : 1}">
-            <div class="row">
-                <div class="col-md-12 text-truncate">
-                    ${this.icon}
-                </div>
-            </div>
-        </div>
-        `;
-    }
-
-    private setInnerTextValue(width: number): string {
-        return `
-        <div style="width: ${width}px; opacity: ${this.isMute ? 0.35 : 1}">
-            <div class="row">
-                <div class="col-md-12 text-truncate">
-                    <strong>${this.aswCurrencyPipe.transform(this.amount)}</strong>
-                </div>
-            </div>
-        </div>
-        `;
-    }
-
-    private setInnerTextTarget(width: number): string {
-        return `
-        <div style="width: ${width}px; opacity: ${this.isMute ? 0.35 : 1}">
-            <div class="row">
-                <div class="col-md-12 text-truncate">
-                    ${this.target ? this.target : ''}
-                </div>
-            </div>
-        </div>
-        `;
     }
 }

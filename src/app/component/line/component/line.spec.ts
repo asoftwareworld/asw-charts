@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Line } from './line';
+import { AswLine } from './line';
 
-describe('Line', () => {
-    let component: Line;
-    let fixture: ComponentFixture<Line>;
+describe('AswLine', () => {
+    let component: AswLine;
+    let fixture: ComponentFixture<AswLine>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [Line]
+            declarations: [AswLine]
         })
             .compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(Line);
+        fixture = TestBed.createComponent(AswLine);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file
  */
-export declare enum LegendTypeEnum {
+export declare enum PieLegendTypeEnum {
     Default = "default",
     Percentage = "percentage",
     Value = "value",
@@ -20,4 +20,8 @@ export declare enum LegendPositionEnum {
     Left = "left",
     Right = "right",
     Bottom = "bottom"
+}
+export declare enum ChartLegendTypeEnum {
+    Default = "default",
+    Both = "both"
 }

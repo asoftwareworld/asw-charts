@@ -1,11 +1,10 @@
 {
-  "main": "../bundles/asoftwareworld-charts-pie-donut.umd.js",
-  "module": "../fesm2015/asoftwareworld-charts-pie-donut.js",
-  "es2015": "../fesm2015/asoftwareworld-charts-pie-donut.js",
-  "esm2015": "../esm2015/pie-donut/asoftwareworld-charts-pie-donut.js",
-  "fesm2015": "../fesm2015/asoftwareworld-charts-pie-donut.js",
+  "module": "../fesm2015/asoftwareworld-charts-pie-donut.mjs",
+  "es2020": "../fesm2020/asoftwareworld-charts-pie-donut.mjs",
+  "esm2020": "../esm2020/pie-donut/asoftwareworld-charts-pie-donut.mjs",
+  "fesm2020": "../fesm2020/asoftwareworld-charts-pie-donut.mjs",
+  "fesm2015": "../fesm2015/asoftwareworld-charts-pie-donut.mjs",
   "typings": "asoftwareworld-charts-pie-donut.d.ts",
-  "metadata": "asoftwareworld-charts-pie-donut.metadata.json",
   "sideEffects": false,
   "name": "@asoftwareworld/charts/pie-donut"
 }
