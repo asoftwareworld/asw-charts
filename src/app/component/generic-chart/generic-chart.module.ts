@@ -1,17 +1,25 @@
+/**
+ * @license
+ * Copyright ASW (A Software World) All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file
+ */
+
 import { NgModule } from '@angular/core';
 import { CommonModule, CurrencyPipe, PercentPipe } from '@angular/common';
-import { AswLine } from './component/line';
+import { AswGenericChart } from './generic-chart';
 import { AswCurrencyPipe } from '@asoftwareworld/charts/core';
 
 @NgModule({
     declarations: [
-        AswLine
+        AswGenericChart
     ],
     imports: [
-        CommonModule
+        CommonModule,
     ],
     exports: [
-        AswLine
+        AswGenericChart
     ],
     providers: [
         PercentPipe,
@@ -19,4 +27,4 @@ import { AswCurrencyPipe } from '@asoftwareworld/charts/core';
         CurrencyPipe
     ]
 })
-export class AswLineModule { }
+export class AswGenericChartModule { }

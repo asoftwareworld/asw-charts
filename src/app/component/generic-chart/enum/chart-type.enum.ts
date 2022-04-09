@@ -5,6 +5,9 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file
  */
-
-export * from './component/bar-column';
-export * from './bar-column.module';
+export enum AswChartTypeEnum {
+    Line = 'line',
+    Column = 'column',
+    Bar = 'bar',
+    Sankey = 'sankey'
+}

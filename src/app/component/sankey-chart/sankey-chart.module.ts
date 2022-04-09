@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, CurrencyPipe, PercentPipe } from '@angular/common';
-import { AswLine } from './component/line';
+import { AswSankeyChart } from './component/sankey-chart';
 import { AswCurrencyPipe } from '@asoftwareworld/charts/core';
 
 @NgModule({
     declarations: [
-        AswLine
+        AswSankeyChart
     ],
     imports: [
         CommonModule
     ],
     exports: [
-        AswLine
+        AswSankeyChart
     ],
     providers: [
         PercentPipe,
@@ -19,4 +19,4 @@ import { AswCurrencyPipe } from '@asoftwareworld/charts/core';
         CurrencyPipe
     ]
 })
-export class AswLineModule { }
+export class AswSankeyChartModule { }

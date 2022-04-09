@@ -8,6 +8,7 @@ import {
     PieLegendTypeEnum,
     PointClickEvent
 } from '@asoftwareworld/charts/core';
+import { AswChartTypeEnum } from '@asoftwareworld/charts/generic-chart';
 import { Options } from 'highcharts';
 
 @Component({
@@ -26,6 +27,9 @@ export class AppComponent implements OnInit {
     lineChartLegendType = ChartLegendTypeEnum.Both;
     legendPosition = LegendPositionEnum.Right;
     isLegendDisplay = true;
+    lineChartType = AswChartTypeEnum.Line;
+    columnChartType = AswChartTypeEnum.Column;
+    sankeyChartType = AswChartTypeEnum.Sankey;
     config: Options = {
         chart: {
             type: 'pie'
@@ -377,12 +381,12 @@ export class AppComponent implements OnInit {
             shared: true,
             useHTML: true
         },
-        plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
-            }
-        },
+        // plotOptions: {
+        //     column: {
+        //         pointPadding: 0.2,
+        //         borderWidth: 0
+        //     }
+        // },
         series: [{
             type: 'column',
             name: 'Tokyo',
@@ -406,6 +410,170 @@ export class AppComponent implements OnInit {
         }]
     };
 
+    spiderConfig: Options = {
+        chart: {
+            polar: true,
+            type: 'line'
+        },
+        title: {
+            text: 'Budget vs spending',
+            x: -80
+        },
+        pane: {
+            size: '80%'
+        },
+        xAxis: {
+            categories: ['Sales', 'Marketing', 'Development', 'Customer Support',
+                'Information Technology', 'Administration'],
+            tickmarkPlacement: 'on',
+            lineWidth: 0
+        },
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,
+            min: 0
+        },
+        series: [{
+            type: 'line',
+            name: 'Allocated Budget',
+            data: [43000, 19000, 60000, 35000, 17000, 10000],
+            pointPlacement: 'on'
+        }, {
+            type: 'line',
+            name: 'Actual Spending',
+            data: [50000, 39000, 42000, 31000, 26000, 14000],
+            pointPlacement: 'on'
+        }],
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        layout: 'horizontal'
+                    },
+                    pane: {
+                        size: '70%'
+                    }
+                }
+            }]
+        }
+    };
+
+    energyConsumptionBarLineChartConfig: Options = {
+        chart: {
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'Average Monthly Temperature and Rainfall in Tokyo'
+        },
+        subtitle: {
+            text: 'Source: WorldClimate.com'
+        },
+        xAxis: [{
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '{value}°C',
+            },
+            title: {
+                text: 'Temperature',
+            }
+        }],
+        tooltip: {
+            shared: true
+        },
+        series: [{
+            name: 'Rainfall',
+            type: 'column',
+            yAxis: 1,
+            data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+            tooltip: {
+                valueSuffix: ' mm'
+            }
+        }, {
+            name: 'Temperature',
+            type: 'spline',
+            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+            tooltip: {
+                valueSuffix: '°C'
+            }
+        }]
+    };
+
+    sankeyChartConfig: any = {
+        chart: {
+            type: 'sankey',
+        },
+        title: {
+            text: 'Highcharts Sankey Diagram'
+        },
+        accessibility: {
+            point: {
+                valueDescriptionFormat: '{index}. {point.from} to {point.to}, {point.weight}.'
+            }
+        },
+        series: [{
+            type: 'sankey',
+            name: 'Sankey demo series',
+            keys: ['from', 'to', 'weight'],
+            data: [
+                ['Brazil', 'Portugal', 5],
+                ['Brazil', 'France', 1],
+                ['Brazil', 'Spain', 1],
+                ['Brazil', 'England', 1],
+                ['Canada', 'Portugal', 1],
+                ['Canada', 'France', 5],
+                ['Canada', 'England', 1],
+                ['Mexico', 'Portugal', 1],
+                ['Mexico', 'France', 1],
+                ['Mexico', 'Spain', 5],
+                ['Mexico', 'England', 1],
+                ['USA', 'Portugal', 1],
+                ['USA', 'France', 1],
+                ['USA', 'Spain', 1],
+                ['USA', 'England', 5],
+                ['Portugal', 'Angola', 2],
+                ['Portugal', 'Senegal', 1],
+                ['Portugal', 'Morocco', 1],
+                ['Portugal', 'South Africa', 3],
+                ['France', 'Angola', 1],
+                ['France', 'Senegal', 3],
+                ['France', 'Mali', 3],
+                ['France', 'Morocco', 3],
+                ['France', 'South Africa', 1],
+                ['Spain', 'Senegal', 1],
+                ['Spain', 'Morocco', 3],
+                ['Spain', 'South Africa', 1],
+                ['England', 'Angola', 1],
+                ['England', 'Senegal', 1],
+                ['England', 'Morocco', 2],
+                ['England', 'South Africa', 7],
+                ['South Africa', 'China', 5],
+                ['South Africa', 'India', 1],
+                ['South Africa', 'Japan', 3],
+                ['Angola', 'China', 5],
+                ['Angola', 'India', 1],
+                ['Angola', 'Japan', 3],
+                ['Senegal', 'China', 5],
+                ['Senegal', 'India', 1],
+                ['Senegal', 'Japan', 3],
+                ['Mali', 'China', 5],
+                ['Mali', 'India', 1],
+                ['Mali', 'Japan', 3],
+                ['Morocco', 'China', 5],
+                ['Morocco', 'India', 1],
+                ['Morocco', 'Japan', 3]
+            ],
+        }]
+    };
+
     ngOnInit(): void {
 
     }
@@ -417,10 +585,16 @@ export class AppComponent implements OnInit {
     }
 
     linePointClick(event: ChartPointerEvent): void {
-        console.log(event);
+        console.log('line chart ', event);
     }
 
     barClick(event: ChartPointerEvent): void {
-        console.log(event);
+        console.log('bar chart ', event);
+    }
+    sankeyClick(event: ChartPointerEvent): void {
+        console.log('sankey chart ', event);
+    }
+    spiderClick(event: ChartPointerEvent): void {
+        console.log('spider chart ', event);
     }
 }

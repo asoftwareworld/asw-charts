@@ -12,17 +12,16 @@ import {
 } from '@angular/core';
 import {
     AswChartConstants,
-    AswCurrencyPipe,
     ChartLegendTypeEnum,
     ChartPointerEvent,
     CurrencyCodeEnum,
     GridOptionsEnum,
     LegendLayoutEnum,
     LegendPositionEnum,
-    PointClickEvent
 } from '@asoftwareworld/charts/core';
 import { ObjectUtils } from '@asoftwareworld/charts/utils';
 import * as Highcharts from 'highcharts';
+import HighchartsSankey from 'highcharts/modules/sankey';
 import {
     AlignValue,
     Options,
@@ -33,13 +32,15 @@ import {
     SeriesPieOptions,
     VerticalAlignValue
 } from 'highcharts';
+import { SankeyChartPointerEvent } from './../interface/sankey-pointer-event';
+HighchartsSankey(Highcharts);
 
 @Component({
-    selector: 'asw-bar-column',
-    templateUrl: './bar-column.html',
-    styleUrls: ['./bar-column.scss']
+    selector: 'asw-sankey-chart',
+    templateUrl: './sankey-chart.html',
+    styleUrls: ['./sankey-chart.scss']
 })
-export class AswBarColumn implements OnChanges, AfterViewInit {
+export class AswSankeyChart implements OnChanges, AfterViewInit {
 
     private cloneConfiguration!: Options;
     public deviceSize: GridOptionsEnum = GridOptionsEnum.Large;
@@ -56,13 +57,11 @@ export class AswBarColumn implements OnChanges, AfterViewInit {
     @Input() legendWidthPx = 250;
     @Input() legendLayout: LegendLayoutEnum = LegendLayoutEnum.Vertical;
 
-    @Output() barClick: EventEmitter<any> = new EventEmitter<any>();
+    @Output() sankeyClick: EventEmitter<any> = new EventEmitter<any>();
 
-    @ViewChild('barColumnChart', { static: true }) barColumnChart!: ElementRef;
+    @ViewChild('sankeyChart', { static: true }) sankeyChart!: ElementRef;
     constructor(
-        private percentPipe: PercentPipe,
-        private currencyPipe: CurrencyPipe,
-        private aswCurrencyPipe: AswCurrencyPipe) { }
+        private currencyPipe: CurrencyPipe) { }
 
     ngOnChanges(): void {
         if (!this.viewInitialized) {
@@ -79,16 +78,16 @@ export class AswBarColumn implements OnChanges, AfterViewInit {
     initializeChart(): void {
         if (this.config) {
             this.cloneConfiguration = this.config;
-            const containerWidth = this.barColumnChart.nativeElement.clientWidth;
+            const containerWidth = this.sankeyChart.nativeElement.clientWidth;
             this.deviceSize = ObjectUtils.findDeviceSize(containerWidth);
             this.removeChartCredit();
-            this.setBarChartTooltip();
+            this.setSankeyChartTooltip();
             const series: SeriesPieOptions[] = this.cloneConfiguration.series as SeriesPieOptions[];
             if (this.legendLayout === LegendLayoutEnum.Vertical) {
-                this.setBarChartLegendOption(this.legendWidthPx);
+               // this.setSankeyChartLegendOption(this.legendWidthPx);
             }
-            this.clickOnBar();
-            Highcharts.chart(this.barColumnChart.nativeElement, this.cloneConfiguration);
+            this.clickOnSankey();
+            Highcharts.chart(this.sankeyChart.nativeElement, this.cloneConfiguration);
         }
     }
 
@@ -103,7 +102,7 @@ export class AswBarColumn implements OnChanges, AfterViewInit {
         };
     }
 
-    private setBarChartTooltip(): void {
+    private setSankeyChartTooltip(): void {
         const this$: this = this;
         this.cloneConfiguration.tooltip = {
             useHTML: true,
@@ -117,17 +116,18 @@ export class AswBarColumn implements OnChanges, AfterViewInit {
             borderRadius: 0,
             enabled: true,
             formatter(): string {
+                const point: any = this.point;
                 return `
                     <div class="row">
                         <div class="col-md-12 text-end text-right">
-                            <strong>${this.point.category}</strong>
+                            <span style="color: ${point.color}">\u25A0</span>
+                            <strong>${point.series.name}</strong>
                         </div>
                         <div class="col-md-12 text-end text-right">
-                            <span style="color: ${this.point.color}">\u25A0</span>
-                            <strong>${this.point.series.name}</strong>
-                        </div>
-                        <div class="col-md-12 text-end text-right">
-                            ${this$.currencyCode ? this$.currencyPipe.transform(this.point.options.y, this$.currencyCode) : this.point.options.y}
+                            ${point.options.weight
+                                ? point.options.from + ' → ' + point.options.to + ': ' + point.options.weight
+                                : point.options.id + ': ' + point.sum
+                            }
                         </div>
                     </div>
                 `;
@@ -135,27 +135,43 @@ export class AswBarColumn implements OnChanges, AfterViewInit {
         };
     }
 
-    private clickOnBar(): void {
-        this.cloneConfiguration.plotOptions = {
-            series: {
-                dataLabels: {
-                    enabled: false
-                },
-                point: {
-                    events: {
-                        click: ((event: PointClickEventObject) => {
-                            const pointClickEvent: ChartPointerEvent = {
-                                name: event.point.series.name,
-                                index: event.point.index,
-                                value: event.point.options.y,
-                                category: event.point.category
-                            };
-                            this.barClick.emit(pointClickEvent);
-                        })
+    private clickOnSankey(): void {
+        if (this.cloneConfiguration.plotOptions) {
+            // tslint:disable-next-line:no-non-null-assertion
+            this.cloneConfiguration.plotOptions!.sankey!.point = {
+                events: {
+                    click: ((event: any) => {
+                        const pointClickEvent: SankeyChartPointerEvent = {
+                            name: event.point.series.name,
+                            from: event.point.options.from ?? event.point.id,
+                            to: event.point.options.to,
+                            weight: event.point.options.weight,
+                            sum: event.point.sum
+                        };
+                        this.sankeyClick.emit(pointClickEvent);
+                    })
+                }
+            };
+        } else {
+            this.cloneConfiguration.plotOptions = {
+                sankey: {
+                    point: {
+                        events: {
+                            click: ((event: any) => {
+                                const pointClickEvent: SankeyChartPointerEvent = {
+                                    name: event.point.series.name,
+                                    from: event.point.options.from ?? event.point.id,
+                                    to: event.point.options.to,
+                                    weight: event.point.options.weight,
+                                    sum: event.point.sum
+                                };
+                                this.sankeyClick.emit(pointClickEvent);
+                            })
+                        }
                     }
                 }
-            }
-        };
+            };
+        }
     }
 
     private setDonutChartSeriesOptions(series: SeriesPieOptions[]): void {
@@ -215,7 +231,7 @@ export class AswBarColumn implements OnChanges, AfterViewInit {
         return this.deviceSize === GridOptionsEnum.ExtraSmall ? AswChartConstants.fontSize14 : AswChartConstants.fontSize16;
     }
 
-    private setBarChartLegendOption(legendWidthPx: number): void {
+    private setSankeyChartLegendOption(legendWidthPx: number): void {
         const this$: this = this;
         this.cloneConfiguration.legend = {
             useHTML: true,

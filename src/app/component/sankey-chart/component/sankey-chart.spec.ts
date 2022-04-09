@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AswBarColumn } from './bar-column';
+import { AswSankeyChart } from './sankey-chart';
 
-describe('AswBarColumn', () => {
-    let component: AswBarColumn;
-    let fixture: ComponentFixture<AswBarColumn>;
+describe('AswSankeyChart', () => {
+    let component: AswSankeyChart;
+    let fixture: ComponentFixture<AswSankeyChart>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [AswBarColumn]
+            declarations: [AswSankeyChart]
         })
             .compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(AswBarColumn);
+        fixture = TestBed.createComponent(AswSankeyChart);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

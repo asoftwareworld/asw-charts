@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-6">
         <asw-pie-donut 
             [config]="config"
@@ -12,27 +12,59 @@
         </asw-pie-donut>
     </div>
     <div class="col-md-6">
-        <asw-line
+        <asw-generic-chart
             [config]="lineConfig"
+            [chartType]="lineChartType"
             [currencyCode]="currencyCode"
             [isLegendSort]="isLegendSort"
             [legendType]="lineChartLegendType"
             [legendLayout]="legendLayout"
             [legendPosition]="legendPosition"
             [isLegendDisplay]="isLegendDisplay"
-            (linePointClick)="linePointClick($event)">
-        </asw-line>
+            (chartPointClick)="linePointClick($event)">
+        </asw-generic-chart>
     </div>
 </div>
 <div class="row">
     <div class="col-md-6">
-        <asw-bar-column
+        <asw-generic-chart
             [config]="barChartConfig"
+            [chartType]="columnChartType"
             [isLegendSort]="isLegendSort"
             [legendLayout]="legendLayout"
             [legendPosition]="legendPosition"
-            (barClick)="barClick($event)">
-        </asw-bar-column>
+            (chartPointClick)="barClick($event)">
+        </asw-generic-chart>
+    </div>
+    <div class="col-md-6">
+        <asw-generic-chart
+            [config]="spiderConfig"
+            [chartType]="lineChartType"
+            [isLegendSort]="isLegendSort"
+            [legendLayout]="legendLayout"
+            [legendPosition]="legendPosition"
+            (chartPointClick)="spiderClick($event)">
+        </asw-generic-chart>
+    </div>
+</div> -->
+<div class="row">
+    <!-- <div class="col-md-12">
+        <asw-sankey-chart
+            [config]="sankeyChartConfig"
+            [isLegendSort]="isLegendSort"
+            [legendLayout]="legendLayout"
+            [legendPosition]="legendPosition"
+            (sankeyClick)="sankeyClick($event)">
+        </asw-sankey-chart>
+    </div> -->
+    <div class="col-md-12">
+        <asw-generic-chart
+            [config]="energyConsumptionBarLineChartConfig"
+            [currencyCode]="currencyCode"
+            [legendType]="lineChartLegendType"
+            [legendLayout]="legendLayout"
+            [legendPosition]="legendPosition">
+        </asw-generic-chart>
     </div>
 </div>
 

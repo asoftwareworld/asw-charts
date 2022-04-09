@@ -24,8 +24,7 @@ import { AswCurrencyPipe } from '@asoftwareworld/charts/core';
     providers: [
         PercentPipe,
         AswCurrencyPipe,
-        CurrencyPipe,
-        Document
+        CurrencyPipe
     ]
 })
 export class AswPieDonutModule { }

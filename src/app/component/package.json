@@ -1,6 +1,6 @@
 {
     "name": "@asoftwareworld/charts",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "author": "Anish Sharma",
     "license": "MIT",
     "peerDependencies": {
@@ -12,7 +12,7 @@
         "highcharts": "^9.2.2",
         "tslib": "^2.0.0"
     },
-    "description": "ASW Form Builder helps you with rapid development and designed web forms which includes several controls. The key feature of Form Builder is to make your content attractive and effective. We can customize our control at run time and preview the same before final submission.",
+    "description": "`ASW Charts` helps you with the Highcharts library comes with all the tools you need to create reliable and secure data visualizations and Built on Angular.",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -30,7 +30,8 @@
         "credit card",
         "validator",
         "asw",
-        "asoftwareworld"
+        "asoftwareworld",
+        "charts"
     ],
     "bugs": {
         "url": "https://github.com/asoftwareworld/asw-charts/issues"
