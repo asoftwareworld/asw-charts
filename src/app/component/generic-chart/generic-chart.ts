@@ -46,7 +46,6 @@ import { AswChartTypeEnum } from './enum/chart-type.enum';
     templateUrl: './generic-chart.html',
 })
 export class AswGenericChart implements OnChanges, AfterViewInit {
-
     private cloneConfiguration!: Options;
     public deviceSize: GridOptionsEnum = GridOptionsEnum.Large;
     private viewInitialized = false;

@@ -61,16 +61,14 @@ Import the NgModule for each component you want to use:
 
 ```
 import { AswPieDonutModule } from '@asoftwareworld/charts/pie-donut';
-import { AswLineModule } from '@asoftwareworld/charts/line';
-import { AswBarColumnModule } from '@asoftwareworld/charts/bar-column';
+import { AswGenericChartModule } from '@asoftwareworld/charts/generic-chart';
 // ...
 
 @NgModule({
   imports: [
     // shown passing global defaults (optional)
     AswPieDonutModule,
-    AswLineModule,
-    AswBarColumnModule
+    AswGenericChartModule
     ...
   ]
   // ...
@@ -95,7 +93,7 @@ In your template, use the component selector:
         </asw-pie-donut>
     </div>
     <div class="col-md-6">
-        <asw-line
+        <asw-generic-chart
             [config]="lineConfig"
             [currencyCode]="currencyCode"
             [isLegendSort]="isLegendSort"
@@ -104,18 +102,18 @@ In your template, use the component selector:
             [legendPosition]="legendPosition"
             [isLegendDisplay]="isLegendDisplay"
             (linePointClick)="linePointClick($event)">
-        </asw-line>
+        </asw-generic-chart>
     </div>
 </div>
 <div class="row">
     <div class="col-md-6">
-        <asw-bar-column
+        <asw-generic-chart
             [config]="barChartConfig"
             [isLegendSort]="isLegendSort"
             [legendLayout]="legendLayout"
             [legendPosition]="legendPosition"
             (barClick)="barClick($event)">
-        </asw-bar-column>
+        </asw-generic-chart>
     </div>
 </div>
 ```
